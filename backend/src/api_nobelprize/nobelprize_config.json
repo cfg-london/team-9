@@ -1,0 +1,3 @@
+{
+    "laureate_endpoint_json": "http://api.nobelprize.org/v1/laureate.json"
+}
