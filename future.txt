@@ -1,0 +1,3 @@
+- scoring between categories based on user navigation history
+- using SPARQL for connecting with other web resources
+-
