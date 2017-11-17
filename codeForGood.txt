@@ -1,0 +1,20 @@
+Graf
+Link
+Recomandari
+
+legaturi noduri graf + recomandari:
+
+    categorii / filtre:
+
+        autor:
+            - bornCountry
+            - bornCity
+            - Gender
+            - ??diedCountry
+            - affiliations
+            -  ??? motivation ??? 
+            
+Link:
+    keywords from: - motivation 
+                   - country, city, or something else ???
+                   
