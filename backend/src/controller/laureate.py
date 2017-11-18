@@ -150,11 +150,10 @@ class LaureateController(metaclass=Singleton):
         # TODO
         pass
 
-    def find_relevant_links_dict(self, id, text):
+    def find_relevant_links_dict(self, text):
         """
-        Given a laureate and a text connected to him, find a mapping from relevant words to links.
+        Given a description, compute a mapping from relevant words to links.
 
-        :param id: The id of the laureate.
         :param text: The text to find words into.
         :return: A mapping from relevant words to links.
         """
