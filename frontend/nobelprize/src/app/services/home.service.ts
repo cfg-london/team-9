@@ -11,9 +11,8 @@ export class HomeService {
   getConceptNodes(size: number): Observable<any[]> {
     return this.http.get(`http://localhost:5000/laureate/graph/id/1/limit/${size}`)
         .pipe(
-          map((resp: any[]) => {
-            console.log(resp);
-            resp[0] = resp[0].map(elem => {
+          map((resp: any) => {
+            resp.nodes = resp.nodes.map(elem => {
               elem.font = {size: elem.size};
               return elem;
             });
