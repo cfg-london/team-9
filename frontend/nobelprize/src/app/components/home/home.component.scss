@@ -1,0 +1,27 @@
+.home-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+#vis-network {
+    flex: 1 1 0;
+    background-color: red;
+}
+
+.home-toolbar {
+    height: 80px;
+
+    mat-toolbar-row {
+        height: 100%;
+    }
+}
+
+.home-search {
+    color: white;
+    height: 100%;
+}
