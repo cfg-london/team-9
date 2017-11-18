@@ -63,6 +63,8 @@ def search_laureate_json(**kwargs):
     # Read and load as json
     # TODO: Error checking
     response = request.read()
+    if isinstance(response, bytes):
+        response = response.decode('UTF-8')
     response_json = json.loads(response)
 
     # TODO: Error checking
