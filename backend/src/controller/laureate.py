@@ -2,6 +2,8 @@ import random
 
 from backend.src.api_nobelprize import search_laureate_json
 from backend.src.api_nobelprize import search_prize_json
+from backend.src.model.graph import Graph
+from backend.src.shared.entity import Entity
 from backend.src.shared.singleton import Singleton
 
 
@@ -24,6 +26,32 @@ class LaureateController(metaclass=Singleton):
     def get_ids_from_laureates_list(self, laureates, field):
         return set((v['id'],field) for v in laureates)
         #return list({v['id']: v for v in laureates}.values())
+
+    def get_graph(self, id, cnt_nodes):
+        laureate = search_laureate_json(id=id)
+        if not laureate:
+            raise Exception('Invalid id')
+        laureate = laureate[0]
+
+        first_level_cnt = (cnt_nodes + 1) / 2
+        lvl1 = self.get_neighbours_json(id, first_level_cnt)
+        lvl1 = Entity.to_entities()
+
+        graph = Graph()
+        graph.add_nodes(lvl1)
+
+        cnt_nodes -= first_level_cnt
+        for neighbour in lvl1:
+            if cnt_nodes <= 0:
+                break
+
+            n = random.randint(1, 2) # 1 or 2 neighbours?
+            lvl2 = self.get_neighbours_json(neighbour['id'], n)
+            graph.add_nodes(lvl2)
+            graph.add_edges(neighbour, lvl2)
+
+        return graph
+
 
     def get_all_neighbours_ids(self, id):
         laureate_info = search_laureate_json(id=id)[0] #list with only one element
