@@ -53,7 +53,7 @@ def search_laureate_json(**kwargs):
     :type gender: str
     :param affiliation: Search for laureates by affiliaton.
     :type affiliation: str
-    :return:
+    :return: A python list of laureates jsons.
     """
     parameters = parse.urlencode(kwargs)
     request = urllib_request.urlopen(
