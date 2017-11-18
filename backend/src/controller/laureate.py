@@ -100,18 +100,22 @@ class LaureateController(metaclass=Singleton):
         similar_laureates_ids = set()
 
         for field in relevant_similarity:
-            dict = {field: laureate_info[field]}
-            neighbours = search_laureate_json(**dict)
-            similar_laureates_ids |= self.get_ids_from_laureates_list(neighbours, field, laureate_info[field])
+            try:
+                dict = {field: laureate_info[field]}
+                neighbours = search_laureate_json(**dict)
+                similar_laureates_ids |= frozenset(tuple(self.get_ids_from_laureates_list(neighbours, field, laureate_info[field]))[:6])
+            except Exception:
+                print('exception')
+                pass
 
         laureate_prizes = laureate_info['prizes']
         relevant_prizes_similarity = ['category', 'year']
-        sum=0
+        sum = 0
         for field in relevant_prizes_similarity:
             for laureate_prize in laureate_prizes:
                 dict = {field: laureate_prize[field]}
                 similar_prizes = search_prize_json(**dict)
-                sum+=len(similar_prizes)
+                sum += len(similar_prizes)
                 for similar_prize in similar_prizes:
                     similar_laureates_ids |= set([(laureate['id'], field, laureate_prize[field]) for laureate in similar_prize['laureates']])
                     # for id in similar_laureates_ids:
@@ -123,7 +127,7 @@ class LaureateController(metaclass=Singleton):
 
         random.seed(12345)
 
-        neighbours = random.sample(neighbours, 3 * limit)
+        neighbours = random.sample(neighbours, 1 * limit)
 
         print(neighbours)
 
@@ -147,7 +151,6 @@ class LaureateController(metaclass=Singleton):
         :return: A JSON representation of all information that should be contained in a laureate page
         """
 
-        # TODO
         pass
 
     def find_relevant_links_dict(self, text):
