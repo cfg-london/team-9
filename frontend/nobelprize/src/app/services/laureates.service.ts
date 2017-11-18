@@ -4,12 +4,21 @@ import { Observable } from 'rxjs/Observable';
 
 import { Laureate } from '../models/laureate';
 
+import {HttpClient} from '@angular/common/http';
+
 @Injectable()
 export class LaureatesService {
+  laureate: string;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getLaureateById(id: number): Observable<Laureate> {
+    this.http.get('http://localhost:5000/laureate/id/' + id).subscribe(response => {
+      this.laureate = response['results'];
+    });
+
+
+
     const default_laureate = {name: 'andrei', description:
       'The growth, division, and death of living cells are regulated by their genes. ' +
       'If these functions are out of balance, tumors can form. One reason for this may be the incorporation of ' +
