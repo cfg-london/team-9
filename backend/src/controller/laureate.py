@@ -100,9 +100,13 @@ class LaureateController(metaclass=Singleton):
         similar_laureates_ids = set()
 
         for field in relevant_similarity:
-            dict = {field: laureate_info[field]}
-            neighbours = search_laureate_json(**dict)
-            similar_laureates_ids |= frozenset(tuple(self.get_ids_from_laureates_list(neighbours, field, laureate_info[field]))[:6])
+            try:
+                dict = {field: laureate_info[field]}
+                neighbours = search_laureate_json(**dict)
+                similar_laureates_ids |= frozenset(tuple(self.get_ids_from_laureates_list(neighbours, field, laureate_info[field]))[:6])
+            except Exception:
+                print('exception')
+                pass
 
         laureate_prizes = laureate_info['prizes']
         relevant_prizes_similarity = ['category', 'year']
