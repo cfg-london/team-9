@@ -9,7 +9,7 @@ export class HomeService {
   constructor(private http: HttpClient) { }
 
   getConceptNodes(size: number): Observable<any[]> {
-    return this.http.get(`http://localhost:5000/homepage_graph`)
+    return this.http.get(`http://52.214.137.161:5000/homepage_graph  `)
         .pipe(
           map((resp: any) => {
             resp.nodes = resp.nodes.map(elem => {
