@@ -27,7 +27,21 @@ export class HomeComponent implements OnInit {
         nodes: data
       };
 
-      const options = {};
+      const options = {
+        nodes: {
+          color: {
+            background: 'rgb(63, 81, 181)'
+          },
+          font: {
+            color: 'white',
+            face: 'Roboto'
+          },
+          margin: 100
+        },
+        edges: {
+          length: 200
+        }
+      };
 
       this.network = new Network(document.getElementById('vis-network'), this.graphData, options);
       this.network.on('click', (event) => {
