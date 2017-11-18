@@ -73,7 +73,9 @@ class LaureatePage(Resource):
 
 class LaureateNeighbours(Resource):
     def get(self, id, limit):
-        return LaureateController().get_neighbours_json(int(id), int(limit))
+        # print(LaureateController().get_neighbours_json(int(id), int(limit)))
+        ids = [n[0][0] for n in LaureateController().get_neighbours_json(int(id), int(limit))]
+        return json.loads(json.dumps([Entity.to_entity(LaureateController().get_laureate(id), 'laureate', Cache().get_laureate_score(id)) for id in ids]))
 
 class LaureateGraph(Resource):
     def get(self, id, limit):
