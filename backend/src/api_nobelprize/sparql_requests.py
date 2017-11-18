@@ -26,7 +26,7 @@ _SPARKQL_CONCEPT_QUERY = """
 SELECT DISTINCT ?link WHERE {
     ?subject ?predicate ?object.
     ?subject rdfs:seeAlso ?link
-    FILTER(str(?object) = "%s")
+    FILTER(regex(str(?object), "%s", "i"))
 }
 LIMIT %s
 """
@@ -69,7 +69,7 @@ def fetch_1_2_grade_concepts(laureate_id):
     result = _query_wo_prefix(_SPARKQL_1_2_NEIGHBOURS % (laureate_id, laureate_id))
     result_list = result["results"]["bindings"]
 
-    return list(map(lambda x: x["target_object"]["value"], result_list))
+    return list(map(lambda x: x["target_object"]["value"].lower(), result_list))
 
 _SPARKQL_NAME_QUERY = """
 SELECT DISTINCT ?subject WHERE {

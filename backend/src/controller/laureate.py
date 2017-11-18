@@ -2,23 +2,14 @@ import json
 import random
 from urllib import parse, request as urllib_request
 
+from textblob import TextBlob
+
 from backend.src.api_nobelprize import search_laureate_json, fetch_1_2_grade_concepts, find_relevant_resources
 from backend.src.api_nobelprize import search_prize_json
 from backend.src.model.graph import Graph
 from backend.src.shared.cache import Cache
 from backend.src.shared.entity import Entity
 from backend.src.shared.singleton import Singleton
-
-
-def _filter_keyword(word, possible_linked_words):
-    if len(word) < 4:
-        return False
-
-    try:
-        dec = int(word)
-        return True
-    except:
-        return word in possible_linked_words
 
 
 class LaureateController(metaclass=Singleton):
@@ -167,21 +158,21 @@ class LaureateController(metaclass=Singleton):
         :param text: The text to find words into.
         :return: A mapping from relevant words to links.
         """
-        possible_linked_words = fetch_1_2_grade_concepts(laureate_id=id)
+        blob = TextBlob(text)
+        words = blob.noun_phrases
 
         relevant_links = {}
-        for line in text.split('\n'):
-            for word in line.split(' '):
-                word = word.strip('.')
-                matches = list(filter(lambda x: (_filter_keyword(word,
-                                                                 possible_linked_words)),
-                                      possible_linked_words))
+        for word in words:
+            try:
+                id = int(word)
+            except:
+                if len(word) < 5:
+                    continue
 
-                if matches:
-                    relevant_resources = find_relevant_resources(word, limit=1)
-                    if len(relevant_resources) > 0:
-                        # only one resource will be fetched
-                        relevant_links[word] = relevant_resources[0]
+            relevant_resources = find_relevant_resources(word, limit=1)
+            if len(relevant_resources) > 0:
+                # only one resource will be fetched
+                relevant_links[word] = relevant_resources[0]
 
         return json.dumps(relevant_links)
 
