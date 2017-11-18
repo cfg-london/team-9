@@ -1,5 +1,5 @@
 export interface Affiliation{
-  city: String;
-  country: String;
-  name: String;
+  city: string;
+  country: string;
+  name: string;
 }
