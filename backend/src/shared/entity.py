@@ -33,7 +33,7 @@ class Entity:
             ans['id'] = 'graph_{}'.format(entity['id'])
             # TODO: label
         elif type == 'edge_node':
-            ans['id'] = '{}_{}_{}_{}'.format(entity['from'], entity['to'], entity['category'], entity['value'])
+            ans['id'] = '{}_{}'.format(entity['category'], entity['value'])
             ans['label'] = '{}: {}'.format(entity['category'], entity['value'])
         else:
             raise Exception('Invalid entity type')

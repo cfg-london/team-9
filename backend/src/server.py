@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 
@@ -77,6 +79,14 @@ class LaureateGraph(Resource):
     def get(self, id, limit):
         return LaureateController().get_graph(int(id), int(limit)).to_json()
 
+# ------ Best laureates --------------------------------------------------
+
+class BestLaureates(Resource):
+    def get(self):
+        laureates = (LaureateController().get_laureate(laur['id']) for laur in Cache().best_laureates)
+        entities = [Entity.to_entity(laur, 'laureate', best['score']) for (laur, best) in zip(laureates, Cache().best_laureates) ]
+        return json.loads(json.dumps(entities))
+
 # ------ Relevant links --------------------------------------------------
 
 class RelevantLinks(Resource):
@@ -85,6 +95,7 @@ class RelevantLinks(Resource):
         text = request.form['text']
 
         return LaureateController().find_relevant_links_dict(int(id), text)
+
 
 
 api.add_resource(HomepageGraph, "/homepage_graph")
@@ -96,6 +107,8 @@ api.add_resource(Laureate, "/laureate/id/<id>")
 api.add_resource(LaureatePage, "/laureate/page/id/<id>")
 api.add_resource(LaureateNeighbours, "/laureate/neighbours/id/<id>/limit/<limit>")
 api.add_resource(LaureateGraph, "/laureate/graph/id/<id>/limit/<limit>")
+
+api.add_resource(BestLaureates, "/laureate/best")
 
 api.add_resource(RelevantLinks, "/laureate/relevant_links")
 

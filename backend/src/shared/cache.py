@@ -5,12 +5,12 @@ from backend.src.shared.singleton import Singleton
 
 
 class Cache(metaclass=Singleton):
-    CACHE_TIME = 24 * 60 * 60
+    CACHE_TIME = 24 * 60 * 60 # in seconds (24 hours)
     MAX_BEST_SIZE = 10
 
     def __init__(self):
         self.laureate_scores = {'id':{'update_time':None, 'score':None}}
-        self.best = [] # TODO: implement as heap
+        self.best_laureates = [] # TODO: implement as heap if MAX_BEST_SIZE is required to be higher
         self.init()
 
     def get_laureate_score(self, id):
@@ -24,18 +24,22 @@ class Cache(metaclass=Singleton):
         score = Scorer().compute_laureate_score(id)
         self.laureate_scores[id] = {'update_time':time.time(), 'score': score}
 
-        if not self.best or score > self.best[0]['score']:
-            new_entry = {'id': id, 'score': score}
-            if len(self.best) >= Cache.MAX_BEST_SIZE:
-                self.best[0] = new_entry
-            else:
-                self.best.append(new_entry)
+        if not self.best_laureates or score > self.best_laureates[0]['score']:
+            print(self.best_laureates)
+            if id in (l['id'] for l in self.best_laureates):
+                return
 
-        self.best.sort(key=lambda x: x['score'])
+            new_entry = {'id': id, 'score': score}
+            if len(self.best_laureates) >= Cache.MAX_BEST_SIZE:
+                self.best_laureates[0] = new_entry
+            else:
+                self.best_laureates.append(new_entry)
+
+        self.best_laureates.sort(key=lambda x: x['score'])
 
     def init(self):
-        # for id in range(0, 20, 2):
-        #     self.recompute_laureate_score(id)
+        for id in range(0, 30, 2):
+            self.recompute_laureate_score(id)
 
         print('Cache initialized')
 
