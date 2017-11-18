@@ -9,4 +9,6 @@ class Graph:
 
     def as_json(self):
         """Returns self graph as JSON representation"""
+
+        # TODO
         return flask.jsonify({'key': 'value'})
