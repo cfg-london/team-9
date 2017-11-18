@@ -4,8 +4,20 @@ import random
 from backend.src.api_nobelprize import search_laureate_json, fetch_1_2_grade_concepts, find_relevant_resources
 from backend.src.api_nobelprize import search_prize_json
 from backend.src.model.graph import Graph
+from backend.src.shared.cache import Cache
 from backend.src.shared.entity import Entity
 from backend.src.shared.singleton import Singleton
+
+
+def _filter_keyword(word, possible_linked_words):
+    if len(word) < 4:
+        return False
+
+    try:
+        dec = int(word)
+        return True
+    except:
+        return word in possible_linked_words
 
 
 class LaureateController(metaclass=Singleton):
@@ -57,7 +69,11 @@ class LaureateController(metaclass=Singleton):
         return graph
 
     def get_all_neighbours_ids(self, id):
-        laureate_info = search_laureate_json(id=id)[0] #list with only one element
+        laureate_info = search_laureate_json(id=id)
+        if not laureate_info:
+            raise Exception('Invalid id')
+
+        laureate_info = laureate_info[0]
         relevant_similarity = ['bornCountry', 'bornCity']
 
         similar_laureates_ids = set()
@@ -119,7 +135,9 @@ class LaureateController(metaclass=Singleton):
         for line in text.split('\n'):
             for word in line.split(' '):
                 word = word.strip('.')
-                matches = list(filter(lambda x: word in x, possible_linked_words))
+                matches = list(filter(lambda x: (_filter_keyword(word,
+                                                                 possible_linked_words)),
+                                      possible_linked_words))
 
                 if matches:
                     relevant_resources = find_relevant_resources(word, limit=1)
@@ -129,6 +147,7 @@ class LaureateController(metaclass=Singleton):
 
         return json.dumps(relevant_links)
 
-
+    def compute_score(self, id):
+        return Cache().get_laureate_score(id)
 
 
