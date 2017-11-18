@@ -15,7 +15,7 @@ class Entity:
             ans['label'] = '{} {}'.format(entity['firstname'], entity['surname'])
 
             if score is None:
-                raise Exception('Score must not be None')
+                score = 0
 
             ans['score'] = score
         elif type == 'laureate_page':
