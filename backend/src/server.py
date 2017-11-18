@@ -42,10 +42,14 @@ class LaureatePage(Resource):
     def get(self, id):
         return LaureateController().get_laureate(int(id)).as_json()
 
+class LaureateNeighbours(Resource):
+    def get(self, id, limit):
+        return LaureateController().get_neighbours_json(int(id), int(limit))
 
 api.add_resource(HomepageGraph, "/homepage_graph")
 api.add_resource(PrizePage, "/prize/year/<year>/category/<category>")
 api.add_resource(LaureatePage, "/laureate/id/<id>")
+api.add_resource(LaureateNeighbours, "/laureate/neighbours/id/<id>/limit/<limit>")
 
 # api.add_resource(WorkflowItem, "/users/<user_id>/workflows/<workflow_id>")
 # api.add_resource(WorkflowStart, "/users/<user_id>/workflows/<workflow_id>/start")
