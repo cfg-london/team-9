@@ -1,7 +1,6 @@
 import random
 
 from backend.src.api_nobelprize import search_laureate_json
-from backend.src.model.laureate import Laureate
 from backend.src.shared.singleton import Singleton
 
 
@@ -11,15 +10,14 @@ class LaureateController(metaclass=Singleton):
 
     def get_laureate(self, id):
         """
-        :param id: Id of the laureate
+        :param id: ID of the laureate
         :return: Instance of laureate corresponding to given id
         """
-
-        # TODO: get actual laureate
         laureates = search_laureate_json(id=id)
+
         if not laureates:
             raise Exception('Invalid id')
-            pass
+
         return laureates[0]
 
     def get_all_neighbours(self, id):
@@ -40,3 +38,12 @@ class LaureateController(metaclass=Singleton):
 
         # TODO change random with something smarter
         return random.sample(neighbours, min(limit, len(neighbours)))
+
+    def get_laureate_page(self, id):
+        """
+        :param id: Id of target laureate
+        :return: A JSON representation of all information that should be contained in a laureate page
+        """
+
+        # TODO
+        pass

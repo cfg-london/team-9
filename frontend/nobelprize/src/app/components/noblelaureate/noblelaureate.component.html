@@ -1,4 +1,6 @@
-<h1> {{ laureate.name | uppercase }} </h1>
-<div>
-  {{laureate.description}}
+<div *ngIf="laureate">
+  <h1> {{ laureate.firstname | uppercase }} </h1>
+  <div>
+    {{laureate.surname}}
+  </div>
 </div>
