@@ -12,11 +12,15 @@ class LaureateController(metaclass=Singleton):
     def get_laureate(self, id):
         """
         :param id: Id of the laureate
-        :return: Instance of Laureate corresponding to given id
+        :return: Instance of laureate corresponding to given id
         """
 
         # TODO: get actual laureate
-        return Laureate()
+        laureates = search_laureate_json(id=id)
+        if not laureates:
+            raise Exception('Invalid id')
+            pass
+        return laureates[0]
 
     def get_all_neighbours(self, id):
         laureate_info = search_laureate_json(id=id)[0]

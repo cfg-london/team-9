@@ -40,7 +40,7 @@ class PrizePage(Resource):
 
 class LaureatePage(Resource):
     def get(self, id):
-        return LaureateController().get_laureate(int(id)).as_json()
+        return LaureateController().get_laureate(int(id))
 
 class LaureateNeighbours(Resource):
     def get(self, id, limit):
