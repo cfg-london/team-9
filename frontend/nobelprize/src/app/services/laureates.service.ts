@@ -15,4 +15,8 @@ export class LaureatesService {
   getLaureateById(id: number): Observable<Laureate> {
     return this.http.get<Laureate>('http://localhost:5000/laureate/id/' + id);
   }
+
+  getNeighbours(id: number, limit: number): Observable<any[]> {
+    return this.http.get<any[]>(`laureate/neighbours/id/${id}/limit/${limit}`);
+  }
 }

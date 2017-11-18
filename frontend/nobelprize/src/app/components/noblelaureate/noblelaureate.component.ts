@@ -23,6 +23,10 @@ export class NoblelaureateComponent implements OnInit {
     this.laureatesService.getLaureateById(this.id).subscribe(response => {
       this.laureate = response;
     });
+
+    this.laureatesService.getNeighbours(this.id, 5).subscribe(response => {
+      console.log(response);
+    });
   }
 
 }
