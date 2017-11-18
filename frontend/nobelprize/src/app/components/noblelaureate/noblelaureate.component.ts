@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class NoblelaureateComponent implements OnInit {
   private sub: any;
   id: number;
-  @Input() laureate: Laureate;
+  laureate: Laureate;
 
   constructor(private laureatesService: LaureatesService, private route: ActivatedRoute) {}
 

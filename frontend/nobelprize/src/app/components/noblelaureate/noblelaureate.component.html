@@ -1,6 +1,15 @@
 <div *ngIf="laureate">
-  <h1> {{ laureate.firstname | uppercase }} </h1>
   <div>
-    {{laureate.surname}}
+    {{laureate.died + ' ' +
+    laureate.diedCity + ' ' +
+    laureate.diedCountry + ' ' +
+    laureate.diedCountryCode}}
   </div>
+  <div>
+    {{laureate.born + ' ' +
+    laureate.bornCity + ' ' +
+    laureate.bornCountry + ' ' +
+    laureate.bornCountryCode}}
+  </div>
+  <app-prize *ngFor="let prize of laureate.prizes" [prize]="prize"></app-prize>
 </div>
