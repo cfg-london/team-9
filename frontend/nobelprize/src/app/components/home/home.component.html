@@ -1,13 +1,15 @@
 <div class="home-content">
-    <mat-toolbar class="home-toolbar">
+    <!-- <mat-toolbar class="home-toolbar">
         <mat-toolbar-row>
             <span>NobelPrize</span>
             <span class="example-spacer"></span>
             <mat-form-field class="home-search">
-                <input matInput placeholder="Search">
+                <input matInput placeholder="Search" ng-model="searchParameter">
             </mat-form-field>
-            <i class="material-icons">search</i>
+            <button mat-icon-button (click)="filterNodes()">
+                <i class="material-icons">search</i>
+            </button>
           </mat-toolbar-row>
-    </mat-toolbar>
+    </mat-toolbar> -->
     <div id="vis-network"></div>
 </div>
