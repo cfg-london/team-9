@@ -1,20 +1,26 @@
 <div *ngIf="laureate">
-  <h2 class="laureate-name">
-    {{laureate.value.surname + ' ' +
-    laureate.value.firstname}}
-  </h2>
-  <div class="laureate-details">
-    <div class="laureate-born">
-      {{laureate.value.born + ' ' + 'in' +
-      laureate.value.bornCity + ', ' +
-      laureate.value.bornCountry}}
+  <mat-toolbar color="primary" class="laureate-toolbar">
+    <mat-toolbar-row>
+      <h2 class="laureate-name">
+        {{laureate.value.surname + ' ' + laureate.value.firstname}}
+      </h2>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="laureate-content">
+    <div class="laureate-details">
+      <div class="laureate-born">
+        Born on {{laureate.value.born | date:format}} in
+        {{laureate.value.bornCity + ', ' +
+        laureate.value.bornCountry}}
+      </div>
+      <div class="laureate-died">
+        Died on {{laureate.value.died | date:format}} 
+        {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}} 
+        {{laureate.value.diedCountry != undefined ? laureate.value.diedCountry : ''}}
+      </div>
     </div>
-    <div class="laureate-died">
-      {{laureate.value.died + ' ' +
-      laureate.value.diedCity ? laureate.value.diedCity : '' + ' ' +
-      laureate.value.diedCountry ? laureate.value.diedCountry : ''}}
-    </div>
+    <h4 class="laureate-prizes">Prizes</h4>
+    <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
   </div>
-  <h4 class="laureate-prizes">Prizes</h4>
-  <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
 </div>
