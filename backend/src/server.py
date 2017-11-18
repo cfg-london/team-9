@@ -61,7 +61,7 @@ class PrizePage(Resource):
 class Laureate(Resource):
     def get(self, id):
         l = LaureateController().get_laureate(int(id))
-        return Entity.to_entity(l, type='laureate', score=Cache().get_laureate_score(id))
+        return Entity.to_entity(l, type='laureate')
 
 
 class LaureatePage(Resource):
@@ -74,7 +74,7 @@ class LaureateNeighbours(Resource):
     def get(self, id, limit):
         # print(LaureateController().get_neighbours_json(int(id), int(limit)))
         ids = [n[0][0] for n in LaureateController().get_neighbours_json(int(id), int(limit))]
-        return json.loads(json.dumps([Entity.to_entity(LaureateController().get_laureate(id), 'laureate', Cache().get_laureate_score(id)) for id in ids]))
+        return json.loads(json.dumps([Entity.to_entity(LaureateController().get_laureate(id), 'laureate') for id in ids]))
 
 class LaureateGraph(Resource):
     def get(self, id, limit):
@@ -115,4 +115,4 @@ api.add_resource(BestLaureates, "/laureate/best")
 api.add_resource(RelevantLinks, "/laureate/relevant_links")
 
 Cache() # Initialize cache
-app.run(debug=True)
+app.run(debug=False)

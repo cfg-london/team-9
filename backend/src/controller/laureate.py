@@ -111,7 +111,7 @@ class LaureateController(metaclass=Singleton):
             for laureate_prize in laureate_prizes:
                 dict = {field: laureate_prize[field]}
                 similar_prizes = search_prize_json(**dict)
-                sum+=len(similar_prizes)
+                sum += len(similar_prizes)
                 for similar_prize in similar_prizes:
                     similar_laureates_ids |= set([(laureate['id'], field, laureate_prize[field]) for laureate in similar_prize['laureates']])
                     # for id in similar_laureates_ids:
@@ -123,7 +123,7 @@ class LaureateController(metaclass=Singleton):
 
         random.seed(12345)
 
-        neighbours = random.sample(neighbours, 3 * limit)
+        neighbours = random.sample(neighbours, 1 * limit)
 
         print(neighbours)
 
