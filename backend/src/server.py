@@ -32,6 +32,8 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
 
+# ------ Homepage graph ------------------------------------------------
+
 class HomepageGraph(Resource):
     def get(self):
         """Get a random homepage graph as json"""
@@ -39,11 +41,12 @@ class HomepageGraph(Resource):
         graph = Graph()  # TODO: get actual correct graph
         return graph.to_json()
 
+# ------ Prizes --------------------------------------------------
 
 class Prize(Resource):
     def get(self, year, category):
         prize = PrizeController().get_prize(int(year), category)
-        return Entity.to_entity(prize, type='prize')
+        return Entity.cato_entity(prize, type='prize')
 
 
 class PrizePage(Resource):
@@ -52,10 +55,12 @@ class PrizePage(Resource):
         return Entity.to_entity(page, type='prize_page')
 
 
+# ------ Laureates --------------------------------------------------
+
 class Laureate(Resource):
     def get(self, id):
         l = LaureateController().get_laureate(int(id))
-        return Entity.to_entity(l, type='laureate')
+        return Entity.to_entity(l, type='laureate', score=Cache().get_laureate_score(id))
 
 
 class LaureatePage(Resource):
@@ -72,6 +77,7 @@ class LaureateGraph(Resource):
     def get(self, id, limit):
         return LaureateController().get_graph(int(id), int(limit)).to_json()
 
+# ------ Relevant links --------------------------------------------------
 
 class RelevantLinks(Resource):
     def post(self):
@@ -79,6 +85,7 @@ class RelevantLinks(Resource):
         text = request.form['text']
 
         return LaureateController().find_relevant_links_dict(int(id), text)
+
 
 api.add_resource(HomepageGraph, "/homepage_graph")
 
