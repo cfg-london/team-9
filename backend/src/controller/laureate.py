@@ -122,8 +122,11 @@ class LaureateController(metaclass=Singleton):
                 matches = list(filter(lambda x: word in x, possible_linked_words))
 
                 if matches:
-                    # only one resource will be fetched
-                    relevant_links[word] = find_relevant_resources(word, limit=1)[0]
+                    relevant_resources = find_relevant_resources(word, limit=1)
+                    if len(relevant_resources) > 0:
+                        # only one resource will be fetched
+                        relevant_links[word] = relevant_resources[0]
+
         return json.dumps(relevant_links)
 
 
