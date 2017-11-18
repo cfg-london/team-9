@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate.component';
+import {LaureatesService} from "./services/laureates.service";
 
 
 @NgModule({
@@ -18,7 +19,9 @@ import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate
     HomeComponent,
     NoblelaureateComponent
   ],
-  providers: [],
+  providers: [
+    LaureatesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
