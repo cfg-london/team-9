@@ -36,11 +36,14 @@ class LaureateController(metaclass=Singleton):
             raise Exception('Invalid id')
 
         # print(laureates)
-        picture_full_data = (self.get_pictures(laureates[0]['surname'] +
-                                               ' ' + laureates[0]['firstname']))['itemListElement'][0]['result']
-        if 'image' in picture_full_data.keys():
-            laureates[0]['picture'] = picture_full_data['image']['contentUrl']
-        else:
+        try:
+            picture_full_data = (self.get_pictures(laureates[0]['surname'] +
+                                                   ' ' + laureates[0]['firstname']))['itemListElement'][0]['result']
+            if 'image' in picture_full_data.keys():
+                laureates[0]['picture'] = picture_full_data['image']['contentUrl']
+            else:
+                laureates[0]['picture'] = ''
+        except Exception:
             laureates[0]['picture'] = ''
 
         return laureates[0]
