@@ -17,8 +17,8 @@
             laureate.value.bornCountry}}
           </div>
           <div class="laureate-died">
-            Died on {{laureate.value.died | date:format}} 
-            {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}} 
+            Died on {{laureate.value.died | date:format}}
+            {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}}
             {{laureate.value.diedCountry != undefined ? laureate.value.diedCountry : ''}}
           </div>
         </div>
@@ -28,6 +28,10 @@
       </div>
       <h4 class="laureate-prizes">Prizes</h4>
       <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
+      <h4 *ngIf="this.id === 26" class="laureate-prizes">Work</h4>
+      <div *ngIf="this.id === 26" class="laureate-details">
+        {{einsteinWork}}
+      </div>
     </div>
 
     <div class="recomandations">
@@ -39,6 +43,13 @@
           </div>
         </a>
       </div>
+
+      <a href="http://localhost:4200/laureate/26">
+        <p>Einstein Albert</p>
+        <div class="recomandation-prize">
+          Prizes for: Physics
+        </div>
+      </a>
     </div>
   </div>
 </div>

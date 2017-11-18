@@ -14,6 +14,7 @@ export class NoblelaureateComponent implements OnInit {
   laureate: Laureate;
   recomandations: any[];
   relevantlinks: any[];
+  einsteinWork = 'If metal electrodes are exposed to light, electrical sparks between them occur more readily. For this "photoelectric effect" to occur, the light waves must be above a certain frequency, however. According to physics theory, the light\'s intensity should be critical. In one of several epoch-making studies beginning in 1905, Albert Einstein explained that light consists of quanta - "packets" with fixed energies corresponding to certain frequencies. One such light quantum, a photon, must have a certain minimum frequency before it can liberate an electron.'
 
   constructor(private laureatesService: LaureatesService, private route: ActivatedRoute) {}
 
@@ -23,7 +24,7 @@ export class NoblelaureateComponent implements OnInit {
       this.laureatesService.getLaureateById(this.id).subscribe(response => {
         this.laureate = response;
 
-        this.laureatesService.getRelevantLinks(this.id, this.laureate.value.prizes[0].motivation).subscribe(response => {
+        this.laureatesService.getRelevantLinks(this.id, this.laureate.value.born).subscribe(response => {
           this.relevantlinks = response;
           console.log(response);
         });
