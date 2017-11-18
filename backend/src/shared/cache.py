@@ -10,10 +10,9 @@ class Cache(metaclass=Singleton):
     CACHE_TIME = 24 * 60 * 60 # in seconds (24 hours)
     MAX_BEST_SIZE = 10
 
-    LONDON_IDS = get_ids_from_laureates_list(search_laureate_json(bornCity='London'))
+    LONDON_IDS = get_ids_from_laureates_list(search_laureate_json(bornCity='London'))[:10]
 
-    PRECOMPUTED_IDS = (297, 26, 46, 202, 1, 39, 1, 14, 19 # , 23, 24, 26, 30, 31, 38, 48
-                       )
+    PRECOMPUTED_IDS = (297, 26, 46, 202, 1, 39, 14, 19)
     PRECOMPUTED_IDS += LONDON_IDS
 
 

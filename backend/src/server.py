@@ -40,15 +40,14 @@ def after_request(response):
 class HomepageGraph(Resource):
     def get(self):
         """Get a random homepage graph as json"""
-        r = random.randint(0, len(Cache().best_laureates))
-        return LaureateController().get_graph(Cache().best_laureates[r]['id'], 7).to_json()
+        return LaureateController().get_graph(Cache().best_laureates[0]['id'], 6).to_json()
 
 # ------ Prizes --------------------------------------------------
 
 class Prize(Resource):
     def get(self, year, category):
         prize = PrizeController().get_prize(int(year), category)
-        return Entity.cato_entity(prize, type='prize')
+        return Entity.to_entity(prize, type='prize')
 
 
 class PrizePage(Resource):
@@ -115,5 +114,5 @@ api.add_resource(BestLaureates, "/laureate/best")
 
 api.add_resource(RelevantLinks, "/laureate/relevant_links")
 
-# Cache() # Initialize cache
+Cache() # Initialize cache
 app.run(debug=True)
