@@ -13,7 +13,7 @@ export class HomeService {
         .pipe(
           map((resp: any) => {
             resp.nodes = resp.nodes.map(elem => {
-              elem.font = {size: elem.size};
+              elem.font = {size: elem.size ? elem.size : 25};
               return elem;
             });
             return resp;

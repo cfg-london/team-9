@@ -4,6 +4,7 @@ from flask_restful import Api, Resource, reqparse
 from backend.src.controller.laureate import LaureateController
 from backend.src.controller.prize import PrizeController
 from backend.src.model.graph import Graph
+from backend.src.shared.cache import Cache
 
 from backend.src.shared.entity import Entity
 
@@ -91,4 +92,5 @@ api.add_resource(LaureateGraph, "/laureate/graph/id/<id>/limit/<limit>")
 
 api.add_resource(RelevantLinks, "/laureate/relevant_links")
 
+Cache() # Initialize cache
 app.run(debug=True)
