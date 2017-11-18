@@ -1,4 +1,5 @@
 import json
+import random
 
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
@@ -39,9 +40,8 @@ def after_request(response):
 class HomepageGraph(Resource):
     def get(self):
         """Get a random homepage graph as json"""
-
-        graph = Graph()  # TODO: get actual correct graph
-        return graph.to_json()
+        r = random.randint(0, len(Cache().best_laureates))
+        return LaureateController().get_graph(Cache().best_laureates[r]['id'], 7).to_json()
 
 # ------ Prizes --------------------------------------------------
 
