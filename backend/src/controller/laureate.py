@@ -68,7 +68,7 @@ class LaureateController(metaclass=Singleton):
         laureate = search_laureate_json(id=id)
         if not laureate:
             raise Exception('Invalid id')
-        laureate = Entity.to_entity(laureate[0], 'laureate')
+        laureate = Entity.to_entity(laureate[0], 'laureate', score=Cache().get_laureate_score(id))
 
         neighbours = self.get_neighbours_json(id, cnt_nodes)
 
@@ -80,7 +80,7 @@ class LaureateController(metaclass=Singleton):
             id = temp2[0]
 
             neighbour = self.get_laureate(id)
-            neighbour = Entity.to_entity(neighbour, type='laureate')
+            neighbour = Entity.to_entity(neighbour, type='laureate', score=Cache().get_laureate_score(id))
 
             edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp2[1], 'value': temp2[2]}
             edge_node = Entity.to_entity(edge_node, type='edge_node')
