@@ -20,6 +20,8 @@ class Entity:
             ans['id'] = 'prize_page_{}_{}'.format(entity['year'], entity['category'])
         elif type == 'graph':
             ans['id'] = 'graph_{}'.format(entity['id'])
+        elif type == 'edge':
+            ans['id'] = '' # irrelevant, not used, but required by generalization
         else:
             raise Exception('Invalid entity type')
 

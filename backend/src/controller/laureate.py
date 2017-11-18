@@ -24,8 +24,8 @@ class LaureateController(metaclass=Singleton):
         return laureates[0]
 
     def get_ids_from_laureates_list(self, laureates, field):
-        return set((v['id'],field) for v in laureates)
-        #return list({v['id']: v for v in laureates}.values())
+        return set((v['id'], field) for v in laureates)
+        # return list({v['id']: v for v in laureates}.values())
 
     def get_graph(self, id, cnt_nodes):
         laureate = search_laureate_json(id=id)
@@ -33,28 +33,28 @@ class LaureateController(metaclass=Singleton):
             raise Exception('Invalid id')
         laureate = laureate[0]
 
-        first_level_cnt = (cnt_nodes + 1) / 2
-        lvl1 = self.get_neighbours_json(id, first_level_cnt)
-        lvl1 = Entity.to_entities()
+        neighbours = self.get_neighbours_json(id, cnt_nodes)
 
         graph = Graph()
-        graph.add_nodes(lvl1)
 
-        cnt_nodes -= first_level_cnt
-        for neighbour in lvl1:
-            if cnt_nodes <= 0:
-                break
+        for temp in neighbours:
+            id = temp[0]
+            edge = {'category': temp[1], 'value': temp[2]}
 
-            n = random.randint(1, 2) # 1 or 2 neighbours?
-            lvl2 = self.get_neighbours_json(neighbour['id'], n)
-            graph.add_nodes(lvl2)
-            graph.add_edges(neighbour, lvl2)
+            neighbour = self.get_laureate(id)
+            neighbour = Entity.to_entity(neighbour, type='laureate')
+            edge = Entity.to_entity(edge, type='edge')
+
+            graph.add_node(edge)
+            graph.add_node(neighbour)
+
+            graph.add_edge(laureate, edge)
+            graph.add_edge(edge, neighbour)
 
         return graph
 
-
     def get_all_neighbours_ids(self, id):
-        laureate_info = search_laureate_json(id=id)[0] #list with only one element
+        laureate_info = search_laureate_json(id=id)[0]  # list with only one element
         relevant_similarity = ['bornCountry', 'bornCity']
 
         similar_laureates_ids = set()
@@ -66,16 +66,16 @@ class LaureateController(metaclass=Singleton):
 
         laureate_prizes = laureate_info['prizes']
         relevant_prizes_similarity = ['category', 'year']
-        sum=0
+        sum = 0
         for field in relevant_prizes_similarity:
             for laureate_prize in laureate_prizes:
                 dict = {field: laureate_prize[field]}
                 similar_prizes = search_prize_json(**dict)
-                sum+=len(similar_prizes)
+                sum += len(similar_prizes)
                 for similar_prize in similar_prizes:
-                    similar_laureates_ids|= set([(laureate['id'],field) for laureate in similar_prize['laureates']])
-                #for id in similar_laureates_ids:
-                #    neighbours += search_laureate_json(id=id)
+                    similar_laureates_ids |= set([(laureate['id'], field) for laureate in similar_prize['laureates']])
+                    # for id in similar_laureates_ids:
+                    #    neighbours += search_laureate_json(id=id)
         return similar_laureates_ids
 
     def get_neighbours_json(self, id, limit):
