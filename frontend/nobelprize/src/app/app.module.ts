@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+
+import { HomeService } from './services/home.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -11,6 +14,7 @@ import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate
 @NgModule({
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   declarations: [
@@ -18,7 +22,9 @@ import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate
     HomeComponent,
     NoblelaureateComponent
   ],
-  providers: [],
+  providers: [
+    HomeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

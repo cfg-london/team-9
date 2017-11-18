@@ -1,10 +1,9 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Node, Network, DataSet } from 'vis';
 
-interface ContentNode {
-  id: number;
-  label: string;
-}
+import { ConceptNode } from '../../models/concept-node';
+
+import { HomeService } from '../../services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -14,19 +13,17 @@ interface ContentNode {
 export class HomeComponent implements OnInit {
   network: Network;
 
-  constructor(private element: ElementRef) { }
+  constructor(private homeService: HomeService) { }
 
   ngOnInit() {
     const dataOptions = {};
-    const data: DataSet<ContentNode> = new DataSet(dataOptions);
-    data.add([
-      {id: 1, label: 'bla1'},
-      {id: 2, label: 'bla2'}
-    ]);
+    const data: DataSet<ConceptNode> = new DataSet(dataOptions);
+    this.homeService.getConceptNodes().subscribe(resp => {
+      console.log(resp);
+      data.add(resp);
+    });
     const options = {};
 
     this.network = new Network(document.getElementById('vis-network'), {nodes: data}, options);
-
   }
-
 }
