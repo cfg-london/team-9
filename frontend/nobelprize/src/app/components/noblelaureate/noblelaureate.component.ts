@@ -29,6 +29,8 @@ export class NoblelaureateComponent implements OnInit {
       console.log(response);
       this.recomandations = response;
     });
+
+    // this.laureatesService.getRelevantLinks(this.)
   }
 
 }
