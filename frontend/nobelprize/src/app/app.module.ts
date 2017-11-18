@@ -15,6 +15,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate.component';
 import { LaureatesService } from './services/laureates.service';
 import { PrizeComponent } from "./components/prize/prize.component";
+import { AffiliationComponent } from './components/affiliation/affiliation.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { PrizeComponent } from "./components/prize/prize.component";
     AppComponent,
     HomeComponent,
     NoblelaureateComponent,
-    PrizeComponent
+    PrizeComponent,
+    AffiliationComponent
   ],
   providers: [
     HomeService,
