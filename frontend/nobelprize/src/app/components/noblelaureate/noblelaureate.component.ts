@@ -21,7 +21,6 @@ export class NoblelaureateComponent implements OnInit {
     });
 
     this.laureatesService.getLaureateById(this.id).subscribe(response => {
-      console.log(response);
       this.laureate = response;
     });
   }

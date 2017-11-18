@@ -1,7 +1,9 @@
-<div>
-  {{prize.category + ' ' +
-  prize.motivation + ' ' +
-  prize.share + ' ' +
-  prize.year}}
+<div class="prize">
+  <div class="prize-details">
+    Prize for {{prize.category + ' in ' + prize.year}} Motivated by: {{prize.motivation}}
+  </div>
+  <div class="prize-affiliated">
+      Affiliated with:
+  </div>
+  <app-affiliation *ngFor="let affiliation of prize.affiliations" [affiliation]="affiliation"></app-affiliation>  
 </div>
-<app-affiliation *ngFor="let affiliation of prize.affiliations" [affiliation]="affiliation"></app-affiliation>

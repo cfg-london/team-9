@@ -5,8 +5,20 @@ from urllib import parse, request as urllib_request
 from backend.src.api_nobelprize import search_laureate_json, fetch_1_2_grade_concepts, find_relevant_resources
 from backend.src.api_nobelprize import search_prize_json
 from backend.src.model.graph import Graph
+from backend.src.shared.cache import Cache
 from backend.src.shared.entity import Entity
 from backend.src.shared.singleton import Singleton
+
+
+def _filter_keyword(word, possible_linked_words):
+    if len(word) < 4:
+        return False
+
+    try:
+        dec = int(word)
+        return True
+    except:
+        return word in possible_linked_words
 
 
 class LaureateController(metaclass=Singleton):
@@ -60,12 +72,13 @@ class LaureateController(metaclass=Singleton):
         graph.add_node(laureate)
 
         for temp in neighbours:
-            id = temp[0]
+            temp2 = temp[0]
+            id = temp2[0]
 
             neighbour = self.get_laureate(id)
             neighbour = Entity.to_entity(neighbour, type='laureate')
 
-            edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp[1], 'value': temp[2]}
+            edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp2[1], 'value': temp2[2]}
             edge_node = Entity.to_entity(edge_node, type='edge_node')
 
             graph.add_node(edge_node)
@@ -77,7 +90,11 @@ class LaureateController(metaclass=Singleton):
         return graph
 
     def get_all_neighbours_ids(self, id):
-        laureate_info = search_laureate_json(id=id)[0] #list with only one element
+        laureate_info = search_laureate_json(id=id)
+        if not laureate_info:
+            raise Exception('Invalid id')
+
+        laureate_info = laureate_info[0]
         relevant_similarity = ['bornCountry', 'bornCity']
 
         similar_laureates_ids = set()
@@ -103,9 +120,17 @@ class LaureateController(metaclass=Singleton):
 
     def get_neighbours_json(self, id, limit):
         neighbours = self.get_all_neighbours_ids(id)
-        print(len(neighbours))
-        # TODO change random with something smarter
-        return random.sample(neighbours, min(limit, len(neighbours)))
+
+        random.seed(12345)
+
+        neighbours = random.sample(neighbours, 3 * limit)
+
+        print(neighbours)
+
+        neighbours = [(n, self.compute_score(n[0])) for n in neighbours]
+        neighbours.sort(key=lambda x: x[1], reverse=True)
+
+        return neighbours[:min(limit, len(neighbours))]
 
     """
     def get_neighbours_json(self, id, limit):
@@ -139,13 +164,19 @@ class LaureateController(metaclass=Singleton):
         for line in text.split('\n'):
             for word in line.split(' '):
                 word = word.strip('.')
-                matches = list(filter(lambda x: word in x, possible_linked_words))
+                matches = list(filter(lambda x: (_filter_keyword(word,
+                                                                 possible_linked_words)),
+                                      possible_linked_words))
 
                 if matches:
-                    # only one resource will be fetched
-                    relevant_links[word] = find_relevant_resources(word, limit=1)[0]
+                    relevant_resources = find_relevant_resources(word, limit=1)
+                    if len(relevant_resources) > 0:
+                        # only one resource will be fetched
+                        relevant_links[word] = relevant_resources[0]
+
         return json.dumps(relevant_links)
 
-
+    def compute_score(self, id):
+        return Cache().get_laureate_score(id)
 
 
