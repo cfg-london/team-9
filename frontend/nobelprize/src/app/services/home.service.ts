@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 export class HomeService {
   constructor(private http: HttpClient) { }
 
-  getConceptNodes(): Observable<any[]> {
+  getConceptNodes(size: number): Observable<any[]> {
     return new Observable((observer) => {
       observer.next([
         {

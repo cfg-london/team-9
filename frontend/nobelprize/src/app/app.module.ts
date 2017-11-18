@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -13,6 +14,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate.component';
 import { LaureatesService } from './services/laureates.service';
+import { PrizeComponent } from "./components/prize/prize.component";
 
 
 @NgModule({
@@ -22,12 +24,14 @@ import { LaureatesService } from './services/laureates.service';
     HttpClientModule,
     AppRoutingModule,
     MatToolbarModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule
   ],
   declarations: [
     AppComponent,
     HomeComponent,
-    NoblelaureateComponent
+    NoblelaureateComponent,
+    PrizeComponent
   ],
   providers: [
     HomeService,

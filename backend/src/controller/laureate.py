@@ -23,8 +23,8 @@ class LaureateController(metaclass=Singleton):
 
         return laureates[0]
 
-    def get_ids_from_laureates_list(self, laureates, field):
-        return set((v['id'], field) for v in laureates)
+    def get_ids_from_laureates_list(self, laureates, field, field_value):
+        return set((v['id'], field, field_value) for v in laureates)
         # return list({v['id']: v for v in laureates}.values())
 
     def get_graph(self, id, cnt_nodes):
@@ -54,7 +54,7 @@ class LaureateController(metaclass=Singleton):
         return graph
 
     def get_all_neighbours_ids(self, id):
-        laureate_info = search_laureate_json(id=id)[0]  # list with only one element
+        laureate_info = search_laureate_json(id=id)[0] #list with only one element
         relevant_similarity = ['bornCountry', 'bornCity']
 
         similar_laureates_ids = set()
@@ -62,18 +62,18 @@ class LaureateController(metaclass=Singleton):
         for field in relevant_similarity:
             dict = {field: laureate_info[field]}
             neighbours = search_laureate_json(**dict)
-            similar_laureates_ids |= self.get_ids_from_laureates_list(neighbours, field)
+            similar_laureates_ids |= self.get_ids_from_laureates_list(neighbours, field, laureate_info[field])
 
         laureate_prizes = laureate_info['prizes']
         relevant_prizes_similarity = ['category', 'year']
-        sum = 0
+        sum=0
         for field in relevant_prizes_similarity:
             for laureate_prize in laureate_prizes:
                 dict = {field: laureate_prize[field]}
                 similar_prizes = search_prize_json(**dict)
-                sum += len(similar_prizes)
+                sum+=len(similar_prizes)
                 for similar_prize in similar_prizes:
-                    similar_laureates_ids |= set([(laureate['id'], field) for laureate in similar_prize['laureates']])
+                    similar_laureates_ids |= set([(laureate['id'], field, laureate_prize[field]) for laureate in similar_prize['laureates']])
                     # for id in similar_laureates_ids:
                     #    neighbours += search_laureate_json(id=id)
         return similar_laureates_ids
