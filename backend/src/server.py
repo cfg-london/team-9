@@ -5,6 +5,8 @@ from backend.src.controller.laureate import LaureateController
 from backend.src.controller.prize import PrizeController
 from backend.src.model.graph import Graph
 
+from backend.src.shared.entity import Entity
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -19,6 +21,10 @@ def index():
 
 @app.after_request
 def after_request(response):
+    """
+    Adds headers to allow redirect to different port
+    """
+
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers',
                          'Content-Type,Authorization')
@@ -30,27 +36,31 @@ class HomepageGraph(Resource):
         """Get a random homepage graph as json"""
 
         graph = Graph()  # TODO: get actual correct graph
-        return graph.as_json()
+        return graph.to_json()
 
 
 class Prize(Resource):
     def get(self, year, category):
-        return PrizeController().get_prize(int(year), category)
+        prize = PrizeController().get_prize(int(year), category)
+        return Entity.to_entity(prize, type='prize')
 
 
 class PrizePage(Resource):
     def get(self, year, category):
-        return PrizeController().get_prize_page(int(year), category)
+        page = PrizeController().get_prize_page(int(year), category)
+        return Entity.to_entity(page, type='prize_page')
 
 
 class Laureate(Resource):
     def get(self, id):
-        return LaureateController().get_laureate(int(id))
+        l = LaureateController().get_laureate(int(id))
+        return Entity.to_entity(l, type='laureate')
 
 
 class LaureatePage(Resource):
     def get(self, id):
-        return LaureateController().get_laureate_page(int(id))
+        page = LaureateController().get_laureate_page(int(id))
+        return Entity.to_entity(page, type='laureate_page')
 
 
 class LaureateNeighbours(Resource):
