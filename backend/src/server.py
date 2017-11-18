@@ -108,6 +108,7 @@ api.add_resource(LaureatePage, "/laureate/page/id/<id>")
 api.add_resource(LaureateNeighbours, "/laureate/neighbours/id/<id>/limit/<limit>")
 api.add_resource(LaureateGraph, "/laureate/graph/id/<id>/limit/<limit>")
 
+
 api.add_resource(BestLaureates, "/laureate/best")
 
 api.add_resource(RelevantLinks, "/laureate/relevant_links")
