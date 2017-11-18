@@ -1,3 +1,15 @@
 - scoring between categories based on user navigation history
-- using SPARQL for connecting with other web resources
--
+
+- absolute scoring of entities:
+    - popularity
+    - number of neighbours
+    - importance for certain user (based on past accesses, IP based)
+    - sum of score of neighbours (propagation, similar to how search engines propagate hyperlink importance)
+    - caching! (memoization, keep score for a period of time (1 day?) )
+    - keep a top (priority queue?) of best scores
+
+- relative scoring of one entity related to another:
+    - number of edges between them
+    - relative score of their categories (domain, gender, year, etc.)
+        - number of accesses by same user of both (categories)
+    - number of accesses by same user of both (entities)
