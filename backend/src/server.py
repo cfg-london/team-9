@@ -91,11 +91,11 @@ class BestLaureates(Resource):
 # ------ Relevant links --------------------------------------------------
 
 class RelevantLinks(Resource):
-    def post(self):
-        id = request.form['id']
-        text = request.form['text']
+    def get(self, id, text):
+        # id = request.form['id']
+        # text = request.form['text']
 
-        return LaureateController().find_relevant_links_dict(int(id), text)
+        return LaureateController().find_relevant_links_dict(text)
 
 
 
@@ -112,7 +112,7 @@ api.add_resource(LaureateGraph, "/laureate/graph/id/<id>/limit/<limit>")
 
 api.add_resource(BestLaureates, "/laureate/best")
 
-api.add_resource(RelevantLinks, "/laureate/relevant_links")
+api.add_resource(RelevantLinks, "/laureate/relevant_links/<id>/<text>")
 
 Cache() # Initialize cache
 app.run(debug=False)
