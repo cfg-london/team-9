@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -22,7 +23,8 @@ import { LaureatesService } from './services/laureates.service';
     HttpClientModule,
     AppRoutingModule,
     MatToolbarModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule
   ],
   declarations: [
     AppComponent,
