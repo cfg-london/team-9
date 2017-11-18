@@ -20,7 +20,7 @@ export class NoblelaureateComponent implements OnInit {
       this.id = +params['id'];
     });
 
-    this.laureate = this.laureatesService.getLaureateById(this.id);
+    this.laureatesService.getLaureateById(this.id).subscribe(response => {this.laureate = response});
   }
 
 }
