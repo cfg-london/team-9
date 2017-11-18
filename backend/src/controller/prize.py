@@ -1,4 +1,3 @@
-from backend.src.model.prize import Prize
 from backend.src.shared.singleton import Singleton
 
 
@@ -14,4 +13,14 @@ class PrizeController(metaclass=Singleton):
         """
 
         # TODO: return actual correct prize
-        return Prize()
+        return None
+
+    def get_prize_page(self, year, category):
+        """
+        :param year: The year of the prize
+        :param category: The category of the prize
+        :return: A JSON corresponding to all the information displayed about this prize
+        """
+
+        # TODO
+        pass
