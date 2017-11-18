@@ -1,5 +1,6 @@
 import json
 import random
+from urllib import parse, request as urllib_request
 
 from backend.src.api_nobelprize import search_laureate_json, fetch_1_2_grade_concepts, find_relevant_resources
 from backend.src.api_nobelprize import search_prize_json
@@ -34,7 +35,30 @@ class LaureateController(metaclass=Singleton):
         if not laureates:
             raise Exception('Invalid id')
 
+        picture_full_data = (self.get_pictures(laureates[0]['firstname']))['itemListElement'][0]['result']['image']
+        if picture_full_data:
+            laureates[0]['picture'] = picture_full_data['contentUrl']
+        else:
+            laureates[0]['picture'] = ''
+
         return laureates[0]
+
+    def get_pictures(self, laureate_name):
+        api_key = 'AIzaSyBjF9PR6yqceWYNacfqPLQyqV6snvbaroc'
+        service_url = 'https://kgsearch.googleapis.com/v1/entities:search'
+
+        params = {
+            'query': laureate_name,
+            'limit': 10,
+            'indent': True,
+            'key': api_key,
+        }
+        t = parse.urlencode(params)
+        url = service_url + '?' + t
+        request = urllib_request.urlopen(url)
+        response = request.read()
+        response = json.loads(response.decode('utf-8'))
+        return response
 
     def get_ids_from_laureates_list(self, laureates, field, field_value):
         return set((v['id'], field, field_value) for v in laureates)

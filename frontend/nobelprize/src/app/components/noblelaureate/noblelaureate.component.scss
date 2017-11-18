@@ -1,28 +1,32 @@
-.laureate {
+.laureate-content {
     display: flex;
+    margin-left: 30px;
     flex-direction: column;
 }
 
 .laureate-name {
-    font-size: 30px;
+    font-size: 40px;
     width: 100%;
     margin-left: 30px;
-    margin-top: 20px;
+    font-weight: bold;
+}
+
+.laureate-toolbar {
     margin-bottom: 20px;
 }
 
 .laureate-details {
-    font-size: 16px;
+    font-size: 23px;
     margin-left: 20px;
-
-    div {
-        margin-bottom: 10px;
-    }
+    line-height: 1.5em;
+    text-indent: 15px;
 }
 
 .laureate-prizes {
-    font-size: 25px;
+    font-size: 40px;
     margin-bottom: 20px;
     margin-left: 30px;
-    margin-top: 10px;
+    margin-top: 40px;
+    font-weight: bold;
+    color: rgb(63, 81, 181);
 }
