@@ -157,10 +157,21 @@ class LaureateController(metaclass=Singleton):
         :param text: The text to find words into.
         :return: A mapping from relevant words to links.
         """
+        relevant_links = {}
+        for line in text.split('\n'):
+            for word in line.split(' '):
+                try:
+                    relevant_resources = find_relevant_resources(word, limit=1)
+                    if len(relevant_resources) > 0:
+                        # only one resource will be fetched
+                        relevant_links[word] = relevant_resources[0]
+                except Exception:
+                    pass
+
+
         blob = TextBlob(text)
         words = blob.noun_phrases
 
-        relevant_links = {}
         for word in words:
             try:
                 id = int(word)
