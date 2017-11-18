@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# IntelliJ
+team-9.iml
+
 # PyCharm
 .idea/
 
