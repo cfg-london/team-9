@@ -70,3 +70,42 @@ def search_laureate_json(**kwargs):
     # TODO: Error checking
     laureates = response_json["laureates"]
     return laureates
+
+
+def search_prize_json(**kwargs):
+    """
+    This method allows you to find and list all Nobel Prizes.
+
+    To find more information about the listed Nobel Laureates
+    (persons and organizations) use the returned ID parameter
+    and get more information using the "laureate" method.
+
+    :param format: Output format (csv or json).
+    :type format: str
+    :param year: Year of the Nobel Prize as YYYY format.
+    :type year: int
+    :param yearTo: End of year span as YYY format. Year is required and used as start.
+    :type yearTo: int
+    :param category: Search for prize by category.
+                     Possible values are: physics, chemistry,
+                        medicine, peace, literature or economics.
+    :type category: str
+    :param numberOfLaureates: Filter prizes by number of laureates who shared the prize
+    :type numberOfLaureates: int
+    :return: A python list of prizes jsons.
+    """
+    parameters = parse.urlencode(kwargs)
+    request = urllib_request.urlopen(
+        "%s?%s" % (CONFIG["prizes_endpoint_json"], parameters)
+    )
+
+    # Read and load as json
+    # TODO: Error checking
+    response = request.read()
+    if isinstance(response, bytes):
+        response = response.decode('UTF-8')
+    response_json = json.loads(response)
+
+    # TODO: Error checking
+    laureates = response_json["prizes"]
+    return laureates
