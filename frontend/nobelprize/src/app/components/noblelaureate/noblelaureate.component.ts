@@ -25,7 +25,7 @@ export class NoblelaureateComponent implements OnInit {
       this.laureate = response;
     });
 
-    this.laureatesService.getNeighbours(this.id, 5).subscribe(response => {
+    this.laureatesService.getNeighbours(this.id, 10).subscribe(response => {
       console.log(response);
       this.recomandations = response;
     });

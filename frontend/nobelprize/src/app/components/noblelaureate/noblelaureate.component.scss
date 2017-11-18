@@ -1,6 +1,7 @@
 .laureate-content {
     display: flex;
     margin-left: 30px;
+    padding-right: 15px;
     flex-direction: column;
 }
 
@@ -53,4 +54,18 @@
     margin-top: 40px;
     font-weight: bold;
     color: rgb(63, 81, 181);
+}
+
+.recomandations {
+    width: 200px;
+
+    .recomandation-prize {
+        margin-bottom: 15px;
+        margin-left: 20px;
+    }
+}
+
+.wrap {
+    display: flex;
+    flex-direction: row-reverse;
 }

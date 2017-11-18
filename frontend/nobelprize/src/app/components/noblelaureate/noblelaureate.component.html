@@ -31,9 +31,14 @@
     </div>
 
     <div class="recomandations">
-      <a *ngFor="let recom of recomandations" [routerLink]="['laureate', recom.id]">
-        {{recom.value.surname + ' ' + recom.value.firstname}}
-      </a>
+      <div *ngFor="let recom of recomandations">
+        <a [routerLink]="['/laureate', recom.id.substring(9)]">
+          <p>{{recom.value.surname + ' ' + recom.value.firstname}}</p>
+          <div class="recomandation-prize">
+              Prizes for: <span *ngFor="let prize of recom.value.prizes"> {{prize.category}} </span>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </div>
