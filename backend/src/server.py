@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 
 from backend.src.controller.laureate import LaureateController
@@ -71,6 +71,14 @@ class LaureateGraph(Resource):
     def get(self, id, limit):
         return LaureateController().get_graph(int(id), int(limit)).to_json()
 
+
+class RelevantLinks(Resource):
+    def post(self):
+        id = request.form['id']
+        text = request.form['text']
+
+        return LaureateController().find_relevant_links_dict(int(id), text)
+
 api.add_resource(HomepageGraph, "/homepage_graph")
 
 api.add_resource(Prize, "/prize/year/<year>/category/<category>")
@@ -80,5 +88,7 @@ api.add_resource(Laureate, "/laureate/id/<id>")
 api.add_resource(LaureatePage, "/laureate/page/id/<id>")
 api.add_resource(LaureateNeighbours, "/laureate/neighbours/id/<id>/limit/<limit>")
 api.add_resource(LaureateGraph, "/laureate/graph/id/<id>/limit/<limit>")
+
+api.add_resource(RelevantLinks, "/laureate/relevant_links")
 
 app.run(debug=True)

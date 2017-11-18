@@ -1,3 +1,4 @@
+import json
 import random
 
 from backend.src.api_nobelprize import search_laureate_json, fetch_1_2_grade_concepts, find_relevant_resources
@@ -123,7 +124,7 @@ class LaureateController(metaclass=Singleton):
                 if matches:
                     # only one resource will be fetched
                     relevant_links[word] = find_relevant_resources(word, limit=1)[0]
-        return relevant_links
+        return json.dumps(relevant_links)
 
 
 
