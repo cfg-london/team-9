@@ -31,8 +31,10 @@ export class HomeComponent implements OnInit {
     this.network = new Network(document.getElementById('vis-network'), {nodes: this.viewDataSet}, options);
     this.network.on('click', (event) => {
       // redirect to page
-      const node = this.data.get(event.nodes[0]) as any;
-      this.router.navigate([`/${node.type}/${node.conceptId}`]);
+      if (event.nodes.length > 1) {
+        const node = this.data.get(event.nodes[0]) as any;
+        this.router.navigate([`/${node.type}/${node.conceptId}`]);
+      }
     });
   }
 
