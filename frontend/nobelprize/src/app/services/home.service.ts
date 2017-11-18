@@ -15,7 +15,7 @@ export class HomeService {
           id: 1,
           label: 'bla1',
           size: 40,
-          type: 'laureat',
+          type: 'laureate',
           conceptId: '1'
         },
         {id: 2, label: 'bla2', size: 20, type: 'prize', conceptId: '1'}
