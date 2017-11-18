@@ -13,7 +13,10 @@ export class HomeService {
         .pipe(
           map((resp: any) => {
             resp.nodes = resp.nodes.map(elem => {
-              elem.font = {size: elem.size ? elem.size : 25};
+              elem.font = {size: elem.score ? elem.score / 10 : 15};
+              if (elem.type !== 'laureate') {
+                elem.color = {background: '#FFC107'};
+              }
               return elem;
             });
             return resp;

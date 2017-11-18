@@ -26,10 +26,15 @@ class LaureateController(metaclass=Singleton):
         if not laureates:
             raise Exception('Invalid id')
 
-        picture_full_data = (self.get_pictures(laureates[0]['firstname']))['itemListElement'][0]['result']['image']
-        if picture_full_data:
-            laureates[0]['picture'] = picture_full_data['contentUrl']
-        else:
+        # print(laureates)
+        try:
+            picture_full_data = (self.get_pictures(laureates[0]['surname'] +
+                                                   ' ' + laureates[0]['firstname']))['itemListElement'][0]['result']
+            if 'image' in picture_full_data.keys():
+                laureates[0]['picture'] = picture_full_data['image']['contentUrl']
+            else:
+                laureates[0]['picture'] = ''
+        except Exception:
             laureates[0]['picture'] = ''
 
         return laureates[0]
@@ -59,7 +64,7 @@ class LaureateController(metaclass=Singleton):
         laureate = search_laureate_json(id=id)
         if not laureate:
             raise Exception('Invalid id')
-        laureate = Entity.to_entity(laureate[0], 'laureate')
+        laureate = Entity.to_entity(laureate[0], 'laureate', score=Cache().get_laureate_score(id))
 
         neighbours = self.get_neighbours_json(id, cnt_nodes)
 
@@ -71,7 +76,7 @@ class LaureateController(metaclass=Singleton):
             id = temp2[0]
 
             neighbour = self.get_laureate(id)
-            neighbour = Entity.to_entity(neighbour, type='laureate')
+            neighbour = Entity.to_entity(neighbour, type='laureate', score=Cache().get_laureate_score(id))
 
             edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp2[1], 'value': temp2[2]}
             edge_node = Entity.to_entity(edge_node, type='edge_node')
