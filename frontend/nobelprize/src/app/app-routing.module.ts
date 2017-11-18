@@ -12,9 +12,6 @@ const appRoutes: Routes = [
   }, {
     path: 'laureate/:id',
     component: NoblelaureateComponent
-  }, {
-    path: '**',
-    redirectTo: ''
   }
 ];
 
