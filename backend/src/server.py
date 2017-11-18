@@ -43,7 +43,7 @@ class HomepageGraph(Resource):
 class Prize(Resource):
     def get(self, year, category):
         prize = PrizeController().get_prize(int(year), category)
-        return Entity.to_entity(prize, type='prize')
+        return Entity.cato_entity(prize, type='prize')
 
 
 class PrizePage(Resource):
@@ -55,7 +55,7 @@ class PrizePage(Resource):
 class Laureate(Resource):
     def get(self, id):
         l = LaureateController().get_laureate(int(id))
-        return Entity.to_entity(l, type='laureate')
+        return Entity.to_entity(l, type='laureate', score=Cache().get_laureate_score(id))
 
 
 class LaureatePage(Resource):

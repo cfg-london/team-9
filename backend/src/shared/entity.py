@@ -3,7 +3,7 @@ import json
 
 class Entity:
     @staticmethod
-    def to_entity(entity, type):
+    def to_entity(entity, type, score=None):
 
         ans = json.loads(json.dumps({'id':'', 'type':'', 'label':'', 'value':''}))
 
@@ -13,6 +13,11 @@ class Entity:
         if type == 'laureate':
             ans['id'] = 'laureate_' + entity['id']
             ans['label'] = '{} {}'.format(entity['firstname'], entity['surname'])
+
+            if score is None:
+                raise Exception('Score must not be None')
+
+            ans['score'] = score
         elif type == 'laureate_page':
             ans['id'] = 'laureate_page_' + entity['id']
             ans['label'] = '{} {}'.format(entity['firstname'], entity['surname'])
