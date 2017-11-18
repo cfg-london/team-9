@@ -24,8 +24,9 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 _SPARKQL_CONCEPT_QUERY = """
 SELECT DISTINCT ?link WHERE {
-    ?subject ?predicate %s.
+    ?subject ?predicate ?object.
     ?subject rdfs:seeAlso ?link
+    FILTER(str(?object) = "%s")
 }
 LIMIT %s
 """

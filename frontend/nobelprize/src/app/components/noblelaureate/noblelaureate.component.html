@@ -1,19 +1,20 @@
 <div *ngIf="laureate">
-  <div>
+  <h2 class="laureate-name">
     {{laureate.value.surname + ' ' +
     laureate.value.firstname}}
+  </h2>
+  <div class="laureate-details">
+    <div class="laureate-born">
+      {{laureate.value.born + ' ' + 'in' +
+      laureate.value.bornCity + ', ' +
+      laureate.value.bornCountry}}
+    </div>
+    <div class="laureate-died">
+      {{laureate.value.died + ' ' +
+      laureate.value.diedCity ? laureate.value.diedCity : '' + ' ' +
+      laureate.value.diedCountry ? laureate.value.diedCountry : ''}}
+    </div>
   </div>
-  <div>
-    {{laureate.value.born + ' ' +
-    laureate.value.bornCity + ' ' +
-    laureate.value.bornCountry + ' ' +
-    laureate.value.bornCountryCode}}
-  </div>
-  <div>
-    {{laureate.value.died + ' ' +
-    laureate.value.diedCity + ' ' +
-    laureate.value.diedCountry + ' ' +
-    laureate.value.diedCountryCode}}
-  </div>
+  <h4 class="laureate-prizes">Prizes</h4>
   <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
 </div>
