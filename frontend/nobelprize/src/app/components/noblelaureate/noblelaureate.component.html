@@ -19,8 +19,10 @@
         {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}} 
         {{laureate.value.diedCountry != undefined ? laureate.value.diedCountry : ''}}
       </div>
+      <img [src]="laureat.picture" [alt]="laureat.value.surname + ' ' + laureat.value.firstname">
     </div>
     <h4 class="laureate-prizes">Prizes</h4>
     <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
+
   </div>
 </div>
