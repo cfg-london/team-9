@@ -70,3 +70,23 @@ def fetch_1_2_grade_concepts(laureate_id):
     result_list = result["results"]["bindings"]
 
     return list(map(lambda x: x["target_object"]["value"], result_list))
+
+_SPARKQL_NAME_QUERY = """
+SELECT DISTINCT ?subject WHERE {
+    ?subject foaf:name ?name
+    FILTER(str(?name) IN (%s))
+}
+"""
+
+
+def get_by_name(names):
+    if not isinstance(names, list):
+        raise TypeError("names must be a list")
+
+    names_quotes = map(lambda s: '"' + s + '"', names)
+    statement = _SPARKQL_NAME_QUERY % (",".join(names_quotes))
+
+    result = _query_wo_prefix(statement)
+    result_list = result["results"]["bindings"]
+
+    return list(map(lambda x: x["subject"]["value"].split('/')[-1], result_list))
