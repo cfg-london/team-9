@@ -67,6 +67,9 @@ class LaureateNeighbours(Resource):
     def get(self, id, limit):
         return LaureateController().get_neighbours_json(int(id), int(limit))
 
+class LaureateGraph(Resource):
+    def get(self, id, limit):
+        return LaureateController().get_graph(int(id), int(limit)).to_json()
 
 api.add_resource(HomepageGraph, "/homepage_graph")
 
@@ -76,5 +79,6 @@ api.add_resource(PrizePage, "/prize/page/year/<year>/category/<category>")
 api.add_resource(Laureate, "/laureate/id/<id>")
 api.add_resource(LaureatePage, "/laureate/page/id/<id>")
 api.add_resource(LaureateNeighbours, "/laureate/neighbours/id/<id>/limit/<limit>")
+api.add_resource(LaureateGraph, "/laureate/graph/id/<id>/limit/<limit>")
 
 app.run(debug=True)

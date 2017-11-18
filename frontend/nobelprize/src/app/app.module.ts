@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate.component';
 import { LaureatesService } from './services/laureates.service';
+import { PrizeComponent } from "./components/prize/prize.component";
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { LaureatesService } from './services/laureates.service';
   declarations: [
     AppComponent,
     HomeComponent,
-    NoblelaureateComponent
+    NoblelaureateComponent,
+    PrizeComponent
   ],
   providers: [
     HomeService,

@@ -1,4 +1,4 @@
-import {Prizes} from "./prizes";
+import {Prize} from "./prize";
 
 export interface Laureate {
   born: string;
@@ -13,5 +13,5 @@ export interface Laureate {
   gender: string;
   id: string;
   surname: string;
-  prizes: Prizes[];
+  prizes: Prize[];
 }

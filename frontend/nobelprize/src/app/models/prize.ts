@@ -1,6 +1,6 @@
 import {Affiliation} from "./affiliation";
 
-export interface Prizes {
+export interface Prize {
   affiliations: Affiliation[];
   category: String;
   motivation: String;
