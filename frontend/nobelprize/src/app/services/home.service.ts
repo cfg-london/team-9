@@ -14,6 +14,9 @@ export class HomeService {
           map((resp: any) => {
             resp.nodes = resp.nodes.map(elem => {
               elem.font = {size: elem.size ? elem.size : 25};
+              if (elem.type !== 'laureate') {
+                elem.color = {background: 'yellow'};
+              }
               return elem;
             });
             return resp;
