@@ -8,6 +8,17 @@ from backend.src.shared.entity import Entity
 from backend.src.shared.singleton import Singleton
 
 
+def _filter_keyword(word, possible_linked_words):
+    if len(word) < 4:
+        return False
+
+    try:
+        dec = int(word)
+        return True
+    except:
+        return word in possible_linked_words
+
+
 class LaureateController(metaclass=Singleton):
     def __init__(self):
         pass
@@ -119,7 +130,9 @@ class LaureateController(metaclass=Singleton):
         for line in text.split('\n'):
             for word in line.split(' '):
                 word = word.strip('.')
-                matches = list(filter(lambda x: word in x, possible_linked_words))
+                matches = list(filter(lambda x: (_filter_keyword(word,
+                                                                 possible_linked_words)),
+                                      possible_linked_words))
 
                 if matches:
                     relevant_resources = find_relevant_resources(word, limit=1)
