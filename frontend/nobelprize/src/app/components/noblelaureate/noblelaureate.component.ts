@@ -12,6 +12,7 @@ export class NoblelaureateComponent implements OnInit {
   private sub: any;
   id: number;
   laureate: Laureate;
+  recomandations: any[];
 
   constructor(private laureatesService: LaureatesService, private route: ActivatedRoute) {}
 
@@ -22,6 +23,11 @@ export class NoblelaureateComponent implements OnInit {
 
     this.laureatesService.getLaureateById(this.id).subscribe(response => {
       this.laureate = response;
+    });
+
+    this.laureatesService.getNeighbours(this.id, 10).subscribe(response => {
+      console.log(response);
+      this.recomandations = response;
     });
   }
 
