@@ -10,6 +10,7 @@
 
 - relative scoring of one entity related to another:
     - number of edges between them
+    - influenced by absolute score
     - relative score of their categories (domain, gender, year, etc.)
         - number of accesses by same user of both (categories)
     - number of accesses by same user of both (entities)
