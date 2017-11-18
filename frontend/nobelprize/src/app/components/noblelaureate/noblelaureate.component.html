@@ -7,26 +7,38 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <div class="laureate-content">
-    <div class="laureate-details">
-      <div>
-        <div class="laureate-born">
-          Born on {{laureate.value.born | date:format}} in
-          {{laureate.value.bornCity + ', ' +
-          laureate.value.bornCountry}}
+  <div class="wrap">
+    <div class="laureate-content">
+      <div class="laureate-details">
+        <div>
+          <div class="laureate-born">
+            Born on {{laureate.value.born | date:format}} in
+            {{laureate.value.bornCity + ', ' +
+            laureate.value.bornCountry}}
+          </div>
+          <div class="laureate-died">
+            Died on {{laureate.value.died | date:format}} 
+            {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}} 
+            {{laureate.value.diedCountry != undefined ? laureate.value.diedCountry : ''}}
+          </div>
         </div>
-        <div class="laureate-died">
-          Died on {{laureate.value.died | date:format}} 
-          {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}} 
-          {{laureate.value.diedCountry != undefined ? laureate.value.diedCountry : ''}}
+        <div class="img-wrap">
+            <img [src]="laureate.value.picture" [alt]="laureate.value.surname + ' ' + laureate.value.firstname">
         </div>
       </div>
-      <div class="img-wrap">
-          <img [src]="laureate.value.picture" [alt]="laureate.value.surname + ' ' + laureate.value.firstname">
+      <h4 class="laureate-prizes">Prizes</h4>
+      <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
+    </div>
+
+    <div class="recomandations">
+      <div *ngFor="let recom of recomandations">
+        <a [routerLink]="['/laureate', recom.id.substring(9)]">
+          <p>{{recom.value.surname + ' ' + recom.value.firstname}}</p>
+          <div class="recomandation-prize">
+              Prizes for: <span *ngFor="let prize of recom.value.prizes"> {{prize.category}} </span>
+          </div>
+        </a>
       </div>
     </div>
-    <h4 class="laureate-prizes">Prizes</h4>
-    <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
-
   </div>
 </div>

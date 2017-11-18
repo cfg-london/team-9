@@ -36,10 +36,10 @@ export class HomeComponent implements OnInit {
             color: 'white',
             face: 'Roboto'
           },
-          margin: 100
+          margin: 300
         },
         edges: {
-          length: 200
+          length: 300
         }
       };
 
