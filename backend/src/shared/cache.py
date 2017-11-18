@@ -34,8 +34,8 @@ class Cache(metaclass=Singleton):
         self.best.sort(key=lambda x: x['score'])
 
     def init(self):
-        for id in range(0, 20, 2):
-            self.recompute_laureate_score(id)
+        # for id in range(0, 20, 2):
+        #     self.recompute_laureate_score(id)
 
         print('Cache initialized')
 
