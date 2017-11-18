@@ -187,7 +187,17 @@ class LaureateController(metaclass=Singleton):
                 # only one resource will be fetched
                 relevant_links[word] = relevant_resources[0]
 
-        return json.dumps(relevant_links)
+        relevant_pairs = []
+        for word in relevant_links:
+            url = relevant_links[word]
+            relevant_pairs.append(
+                {
+                    'pattern': word,
+                    'url': url
+                }
+            )
+
+        return json.dumps(relevant_pairs)
 
     def compute_score(self, id):
         return Cache().get_laureate_score(id)
