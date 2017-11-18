@@ -1,6 +1,6 @@
 import random
 
-from backend.src.api_nobelprize import search_laureate_json
+from backend.src.api_nobelprize import search_laureate_json, fetch_1_2_grade_concepts, find_relevant_resources
 from backend.src.api_nobelprize import search_prize_json
 from backend.src.model.graph import Graph
 from backend.src.shared.entity import Entity
@@ -103,3 +103,28 @@ class LaureateController(metaclass=Singleton):
 
         # TODO
         pass
+
+    def find_relevant_links_dict(self, id, text):
+        """
+        Given a laureate and a text connected to him, find a mapping from relevant words to links.
+
+        :param id: The id of the laureate.
+        :param text: The text to find words into.
+        :return: A mapping from relevant words to links.
+        """
+        possible_linked_words = fetch_1_2_grade_concepts(laureate_id=id)
+
+        relevant_links = {}
+        for line in text.split('\n'):
+            for word in line.split(' '):
+                word = word.strip('.')
+                matches = list(filter(lambda x: word in x, possible_linked_words))
+
+                if matches:
+                    # only one resource will be fetched
+                    relevant_links[word] = find_relevant_resources(word, limit=1)[0]
+        return relevant_links
+
+
+
+
