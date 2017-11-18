@@ -1,7 +1,9 @@
 import random
 
-from backend.src.api_nobelprize import search_laureate_json
+from backend.src.api_nobelprize import search_laureate_json, fetch_1_2_grade_concepts, find_relevant_resources
 from backend.src.api_nobelprize import search_prize_json
+from backend.src.model.graph import Graph
+from backend.src.shared.entity import Entity
 from backend.src.shared.singleton import Singleton
 
 
@@ -22,8 +24,36 @@ class LaureateController(metaclass=Singleton):
         return laureates[0]
 
     def get_ids_from_laureates_list(self, laureates, field, field_value):
-        return set((v['id'],field, field_value) for v in laureates)
-        #return list({v['id']: v for v in laureates}.values())
+        return set((v['id'], field, field_value) for v in laureates)
+        # return list({v['id']: v for v in laureates}.values())
+
+    def get_graph(self, id, cnt_nodes):
+        laureate = search_laureate_json(id=id)
+        if not laureate:
+            raise Exception('Invalid id')
+        laureate = Entity.to_entity(laureate[0], 'laureate')
+
+        neighbours = self.get_neighbours_json(id, cnt_nodes)
+
+        graph = Graph()
+        graph.add_node(laureate)
+
+        for temp in neighbours:
+            id = temp[0]
+
+            neighbour = self.get_laureate(id)
+            neighbour = Entity.to_entity(neighbour, type='laureate')
+
+            edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp[1], 'value': temp[2]}
+            edge_node = Entity.to_entity(edge_node, type='edge_node')
+
+            graph.add_node(edge_node)
+            graph.add_node(neighbour)
+
+            graph.add_edge(laureate, edge_node)
+            graph.add_edge(edge_node, neighbour)
+
+        return graph
 
     def get_all_neighbours_ids(self, id):
         laureate_info = search_laureate_json(id=id)[0] #list with only one element
@@ -45,9 +75,9 @@ class LaureateController(metaclass=Singleton):
                 similar_prizes = search_prize_json(**dict)
                 sum+=len(similar_prizes)
                 for similar_prize in similar_prizes:
-                    similar_laureates_ids|= set([(laureate['id'],field, laureate_prize[field]) for laureate in similar_prize['laureates']])
-                #for id in similar_laureates_ids:
-                #    neighbours += search_laureate_json(id=id)
+                    similar_laureates_ids |= set([(laureate['id'], field, laureate_prize[field]) for laureate in similar_prize['laureates']])
+                    # for id in similar_laureates_ids:
+                    #    neighbours += search_laureate_json(id=id)
         return similar_laureates_ids
 
     def get_neighbours_json(self, id, limit):
@@ -73,3 +103,28 @@ class LaureateController(metaclass=Singleton):
 
         # TODO
         pass
+
+    def find_relevant_links_dict(self, id, text):
+        """
+        Given a laureate and a text connected to him, find a mapping from relevant words to links.
+
+        :param id: The id of the laureate.
+        :param text: The text to find words into.
+        :return: A mapping from relevant words to links.
+        """
+        possible_linked_words = fetch_1_2_grade_concepts(laureate_id=id)
+
+        relevant_links = {}
+        for line in text.split('\n'):
+            for word in line.split(' '):
+                word = word.strip('.')
+                matches = list(filter(lambda x: word in x, possible_linked_words))
+
+                if matches:
+                    # only one resource will be fetched
+                    relevant_links[word] = find_relevant_resources(word, limit=1)[0]
+        return relevant_links
+
+
+
+

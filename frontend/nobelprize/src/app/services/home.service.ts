@@ -14,9 +14,11 @@ export class HomeService {
         {
           id: 1,
           label: 'bla1',
-          size: 40
+          size: 40,
+          type: 'laureat',
+          conceptId: '1'
         },
-        {id: 2, label: 'bla2', size: 20}
+        {id: 2, label: 'bla2', size: 20, type: 'prize', conceptId: '1'}
       ]);
       observer.complete();
   }).pipe(
