@@ -9,17 +9,19 @@
 
   <div class="laureate-content">
     <div class="laureate-details">
-      <div class="laureate-born">
-        Born on {{laureate.value.born | date:format}} in
-        {{laureate.value.bornCity + ', ' +
-        laureate.value.bornCountry}}
+      <div>
+        <div class="laureate-born">
+          Born on {{laureate.value.born | date:format}} in
+          {{laureate.value.bornCity + ', ' +
+          laureate.value.bornCountry}}
+        </div>
+        <div class="laureate-died">
+          Died on {{laureate.value.died | date:format}} 
+          {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}} 
+          {{laureate.value.diedCountry != undefined ? laureate.value.diedCountry : ''}}
+        </div>
       </div>
-      <div class="laureate-died">
-        Died on {{laureate.value.died | date:format}} 
-        {{laureate.value.diedCity != undefined ? 'in ' + laureate.value.diedCity : ''}} 
-        {{laureate.value.diedCountry != undefined ? laureate.value.diedCountry : ''}}
-      </div>
-      <img [src]="laureat.picture" [alt]="laureat.value.surname + ' ' + laureat.value.firstname">
+      <img [src]="laureate.value.picture" [alt]="laureate.value.surname + ' ' + laureate.value.firstname">
     </div>
     <h4 class="laureate-prizes">Prizes</h4>
     <app-prize *ngFor="let prize of laureate.value.prizes" [prize]="prize"></app-prize>
