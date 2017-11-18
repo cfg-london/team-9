@@ -20,19 +20,18 @@ export class NoblelaureateComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id'];
-    });
+      this.laureatesService.getLaureateById(this.id).subscribe(response => {
+        this.laureate = response;
 
-    this.laureatesService.getLaureateById(this.id).subscribe(response => {
-      this.laureate = response;
-
-      this.laureatesService.getRelevantLinks(this.laureate.value.prizes[0].motivation).subscribe(response => {
-        this.relevantlinks = response;
-        console.log(response);
+        this.laureatesService.getRelevantLinks(this.id, this.laureate.value.prizes[0].motivation).subscribe(response => {
+          this.relevantlinks = response;
+          console.log(response);
+        });
       });
-    });
 
-    this.laureatesService.getNeighbours(this.id, 10).subscribe(response => {
-      this.recomandations = response;
+      this.laureatesService.getNeighbours(this.id, 10).subscribe(response => {
+        this.recomandations = response;
+      });
     });
   }
 
