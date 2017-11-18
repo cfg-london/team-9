@@ -19,4 +19,7 @@ class Graph:
             self.nodes[node['id']] = node
 
     def add_edge(self, fr, to):
-        self.edges.append(json.loads(json.dumps({'from':fr['id'], 'to':to['id']})))
+        new_edge = json.loads(json.dumps({'from':fr['id'], 'to':to['id']}))
+        if new_edge in self.edges:
+            return
+        self.edges.append(new_edge)
