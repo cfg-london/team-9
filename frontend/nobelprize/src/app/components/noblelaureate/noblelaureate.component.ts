@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Laureate } from '../../models/laureate';
-import { LaureatesService } from '../../services/laureates.service'
+import { LaureatesService } from '../../services/laureates.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
