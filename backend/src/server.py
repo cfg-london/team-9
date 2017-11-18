@@ -94,7 +94,7 @@ class RelevantLinks(Resource):
         id = request.form['id']
         text = request.form['text']
 
-        return LaureateController().find_relevant_links_dict(int(id), text)
+        return LaureateController().find_relevant_links_dict(text)
 
 
 
