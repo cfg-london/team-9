@@ -16,10 +16,10 @@ class Cache(metaclass=Singleton):
         if temp is None or temp['update_time'] < time.time() - Cache.CACHE_TIME:
             self.recompute_laureate_score(id)
 
-        return self.laureate_scores['id']['score']
+        return self.laureate_scores[id]['score']
 
     def recompute_laureate_score(self, id):
-        self.laureate_scores['id'] = {'update_time':time.time(), 'score': Scorer().compute_laureate_score(id)}
+        self.laureate_scores[id] = {'update_time':time.time(), 'score': Scorer().compute_laureate_score(id)}
 
     def init(self):
         for id in range(0, 20, 2):

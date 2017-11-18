@@ -41,12 +41,13 @@ class LaureateController(metaclass=Singleton):
         graph.add_node(laureate)
 
         for temp in neighbours:
-            id = temp[0]
+            temp2 = temp[0]
+            id = temp2[0]
 
             neighbour = self.get_laureate(id)
             neighbour = Entity.to_entity(neighbour, type='laureate')
 
-            edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp[1], 'value': temp[2]}
+            edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp2[1], 'value': temp2[2]}
             edge_node = Entity.to_entity(edge_node, type='edge_node')
 
             graph.add_node(edge_node)
@@ -88,9 +89,17 @@ class LaureateController(metaclass=Singleton):
 
     def get_neighbours_json(self, id, limit):
         neighbours = self.get_all_neighbours_ids(id)
-        print(len(neighbours))
-        # TODO change random with something smarter
-        return random.sample(neighbours, min(limit, len(neighbours)))
+
+        random.seed(12345)
+
+        neighbours = random.sample(neighbours, 3 * limit)
+
+        print(neighbours)
+
+        neighbours = [(n, self.compute_score(n[0])) for n in neighbours]
+        neighbours.sort(key=lambda x: x[1], reverse=True)
+
+        return neighbours[:min(limit, len(neighbours))]
 
     """
     def get_neighbours_json(self, id, limit):

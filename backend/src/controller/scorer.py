@@ -6,4 +6,4 @@ class Scorer:
         pass
 
     def compute_laureate_score(self, id):
-        len(backend.src.controller.laureate.LaureateController().get_all_neighbours_ids(id))
+        return len(backend.src.controller.laureate.LaureateController().get_all_neighbours_ids(id))

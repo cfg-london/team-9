@@ -92,5 +92,5 @@ api.add_resource(LaureateGraph, "/laureate/graph/id/<id>/limit/<limit>")
 
 api.add_resource(RelevantLinks, "/laureate/relevant_links")
 
-Cache() # Initialize cache
+# Cache() # Initialize cache
 app.run(debug=True)
