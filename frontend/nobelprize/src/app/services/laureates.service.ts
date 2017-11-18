@@ -21,6 +21,6 @@ export class LaureatesService {
   }
 
   getRelevantLinks(text: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://52.214.137.161:5000/laureate/relevant_links`);
+    return this.http.post<any[]>(`http://52.214.137.161:5000/laureate/relevant_links`, text);
   }
 }
