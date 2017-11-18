@@ -7,7 +7,7 @@ class Graph:
         self.edges = []
 
     def to_json(self):
-        return json.loads(json.dumps({'nodes':self.nodes, 'edges':self.edges}))
+        return json.loads(json.dumps({'nodes':[v for v in self.nodes.values()], 'edges':self.edges}))
 
     def add_nodes(self, nodes):
         for node in nodes:
