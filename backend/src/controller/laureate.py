@@ -31,25 +31,27 @@ class LaureateController(metaclass=Singleton):
         laureate = search_laureate_json(id=id)
         if not laureate:
             raise Exception('Invalid id')
-        laureate = laureate[0]
+        laureate = Entity.to_entity(laureate[0], 'laureate')
 
         neighbours = self.get_neighbours_json(id, cnt_nodes)
 
         graph = Graph()
+        graph.add_node(laureate)
 
         for temp in neighbours:
             id = temp[0]
-            edge = {'category': temp[1], 'value': temp[2]}
 
             neighbour = self.get_laureate(id)
             neighbour = Entity.to_entity(neighbour, type='laureate')
-            edge = Entity.to_entity(edge, type='edge')
 
-            graph.add_node(edge)
+            edge_node = {'from': laureate['id'], 'to': neighbour['id'], 'category': temp[1], 'value': temp[2]}
+            edge_node = Entity.to_entity(edge_node, type='edge_node')
+
+            graph.add_node(edge_node)
             graph.add_node(neighbour)
 
-            graph.add_edge(laureate, edge)
-            graph.add_edge(edge, neighbour)
+            graph.add_edge(laureate, edge_node)
+            graph.add_edge(edge_node, neighbour)
 
         return graph
 
