@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Node, Network, DataSet } from 'vis';
 
 import { HomeService } from '../../services/home.service';
@@ -14,7 +15,8 @@ export class HomeComponent implements OnInit {
   data: DataSet<any>;
   searchParameter: string;
 
-  constructor(private homeService: HomeService) { }
+  constructor(private homeService: HomeService,
+              private router: Router) { }
 
   ngOnInit() {
     const dataOptions = {};
@@ -29,6 +31,8 @@ export class HomeComponent implements OnInit {
     this.network = new Network(document.getElementById('vis-network'), {nodes: this.viewDataSet}, options);
     this.network.on('click', (event) => {
       // redirect to page
+      const node = this.data.get(event.nodes[0]) as any;
+      this.router.navigate([`/${node.type}/${node.conceptId}`]);
     });
   }
 
