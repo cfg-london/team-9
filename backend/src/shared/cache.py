@@ -8,11 +8,11 @@ from backend.src.shared.utils import get_ids_from_laureates_list
 
 class Cache(metaclass=Singleton):
     CACHE_TIME = 24 * 60 * 60 # in seconds (24 hours)
-    MAX_BEST_SIZE = 10
+    MAX_BEST_SIZE = 8
 
     LONDON_IDS = get_ids_from_laureates_list(search_laureate_json(bornCity='London'))[:10]
 
-    PRECOMPUTED_IDS = (297, 26, 46, 202, 1, 39, 14, 19)
+    PRECOMPUTED_IDS = (297, 26, 46, 202, 1, 39)
     PRECOMPUTED_IDS += LONDON_IDS
 
 
@@ -46,7 +46,8 @@ class Cache(metaclass=Singleton):
             else:
                 self.best_laureates.append(new_entry)
 
-        self.best_laureates.sort(key=lambda x: x['score'])
+            self.best_laureates.sort(key=lambda x: x['score'])
+
 
     def init(self):
         for id in Cache.PRECOMPUTED_IDS:

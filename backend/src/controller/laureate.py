@@ -102,11 +102,11 @@ class LaureateController(metaclass=Singleton):
         for field in relevant_similarity:
             dict = {field: laureate_info[field]}
             neighbours = search_laureate_json(**dict)
-            similar_laureates_ids |= self.get_ids_from_laureates_list(neighbours, field, laureate_info[field])
+            similar_laureates_ids |= frozenset(tuple(self.get_ids_from_laureates_list(neighbours, field, laureate_info[field]))[:6])
 
         laureate_prizes = laureate_info['prizes']
         relevant_prizes_similarity = ['category', 'year']
-        sum=0
+        sum = 0
         for field in relevant_prizes_similarity:
             for laureate_prize in laureate_prizes:
                 dict = {field: laureate_prize[field]}
@@ -147,7 +147,6 @@ class LaureateController(metaclass=Singleton):
         :return: A JSON representation of all information that should be contained in a laureate page
         """
 
-        # TODO
         pass
 
     def find_relevant_links_dict(self, text):
