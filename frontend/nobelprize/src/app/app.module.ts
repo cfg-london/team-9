@@ -9,6 +9,7 @@ import { HomeService } from './services/home.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate.component';
+import {LaureatesService} from './services/laureates.service';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { NoblelaureateComponent } from './components/noblelaureate/noblelaureate
     NoblelaureateComponent
   ],
   providers: [
-    HomeService
+    HomeService,
+    LaureatesService
   ],
   bootstrap: [AppComponent]
 })
